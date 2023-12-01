@@ -1,11 +1,20 @@
-function readInput(input) {
-  let texts = input.split("\n");
-  console.log(texts);
+import fs from "fs";
 
-  return calculateCalibration(texts);
+async function readInput(filePath, cb) {
+  let texts;
+  fs.readFile(filePath, "utf-8", (err, data) => {
+    texts = data.split("\n");
+    console.log(texts);
+
+    calculateCalibration(texts, (err, result) => {
+      if (err) console.log(err);
+
+      return cb(null, result);
+    });
+  });
 }
 
-function calculateCalibration(texts) {
+function calculateCalibration(texts, cb) {
   let calibrationSum = 0;
 
   texts.forEach((text) => {
@@ -14,7 +23,7 @@ function calculateCalibration(texts) {
     });
   });
 
-  return calibrationSum;
+  return cb(null, calibrationSum);
 }
 
 function getCalibrationValue(text, cb) {
@@ -33,7 +42,11 @@ function getCalibrationValue(text, cb) {
   return cb(null, calibration);
 }
 
-readInput(`1abc2
-  pqr3stu8vwx
-  a1b2c3d4e5f
-  treb7uchet`);
+readInput(
+  "/home/nati/learn/AdventofCode/advent_of_code_2023/Day1/input.txt",
+  (err, result) => {
+    if (err) console.log(err);
+
+    console.log(result);
+  }
+);
