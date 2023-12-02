@@ -25,11 +25,9 @@ function processGames(games) {
 function processGame(game, cb) {
   let gameInput = processGameInput(game);
 
-  if (isGamePossible(gameInput.setsOfGame)) {
-    return parseInt(gameInput.gameID.split(" ")[1]);
-  }
+  let result = isGamePossible(gameInput.setsOfGame);
 
-  return 0;
+  return result;
 }
 
 function processGameInput(game) {
@@ -48,39 +46,53 @@ function processGameInput(game) {
 
 function isGamePossible(setsOfGame) {
   let isPossible = true;
+  let maxRed = 0;
+  let maxGreen = 0;
+  let maxBlue = 0;
+
   for (const set of setsOfGame) {
     let cubes = set.split(",");
 
     for (const cube of cubes) {
       let numAndColor = cube.trim().split(" ");
 
-      if (!checkCountOfCube(parseInt(numAndColor[0]), numAndColor[1])) {
-        isPossible = false;
+      const result = checkCountOfCube(parseInt(numAndColor[0]), numAndColor[1]);
+
+      if (result.color === "red" && result.num > maxRed) {
+        maxRed = result.num;
+      }
+
+      if (result.color === "green" && result.num > maxGreen) {
+        maxGreen = result.num;
+      }
+
+      if (result.color === "blue" && result.num > maxBlue) {
+        maxBlue = result.num;
       }
     }
   }
 
-  return isPossible;
+  return maxBlue * maxRed * maxGreen;
 }
 
 function checkCountOfCube(num, color) {
   switch (color) {
     case "red":
-      if (num > 12) {
-        return false;
-      }
-      return true;
+      return {
+        color: "red",
+        num: num,
+      };
     case "green":
-      if (num > 13) {
-        return false;
-      }
-      return true;
+      return {
+        color: "green",
+        num: num,
+      };
 
     case "blue":
-      if (num > 14) {
-        return false;
-      }
-      return true;
+      return {
+        color: "blue",
+        num: num,
+      };
   }
 }
 
