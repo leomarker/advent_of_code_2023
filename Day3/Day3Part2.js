@@ -25,6 +25,27 @@ class Symbol {
     this.index = index;
     this.value = value;
   }
+
+  numberOfNumberNeighbours() {
+    return numbers.filter((number) => number.hasSymbolInNeighbourhood(this))
+      .length;
+  }
+
+  isGear() {
+    return this.value === "*" && this.numberOfNumberNeighbours() === 2;
+  }
+
+  getNeighboursProduct() {
+    if (!this.isGear()) {
+      return 0;
+    }
+
+    const neighbours = numbers.filter((number) =>
+      number.hasSymbolInNeighbourhood(this)
+    );
+
+    return neighbours[0].value * neighbours[1].value;
+  }
 }
 
 function readInput(path, cb) {
@@ -68,6 +89,14 @@ function sumNumbers(numbers) {
   return first;
 }
 
+function sumOfGears(symbols) {
+  let sum = symbols.reduce(
+    (acc, symbol) => acc + symbol.getNeighboursProduct(),
+    0
+  );
+
+  return sum;
+}
 readInput(
   "/home/nati/learn/AdventofCode/advent_of_code_2023/Day3/input.txt",
   (err, result) => {
@@ -80,5 +109,9 @@ readInput(
     let sum = sumNumbers(numbers);
 
     console.log(sum);
+
+    let gears = sumOfGears(symbols);
+
+    console.log(gears);
   }
 );
