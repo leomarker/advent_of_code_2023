@@ -1,0 +1,13 @@
+{
+  "name": "day5",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Day5Part1.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
