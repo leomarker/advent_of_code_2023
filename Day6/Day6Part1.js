@@ -13,6 +13,8 @@ function readInput(path, cb) {
     cb(null, input);
 
     processInput(input);
+
+    console.log(calculateMarginOfError());
   });
 }
 
@@ -48,6 +50,34 @@ function processInput(input) {
     race = new Race(time, distance[index]);
     races.push(race);
   });
+}
+
+function calculateMarginOfError() {
+  let totalWaysToWin = 1;
+  races.forEach((race) => {
+    let time = race.time;
+    let distance = race.recordDistance;
+
+    let waysToWinThisRace = waysToWin(time, distance);
+
+    totalWaysToWin *= waysToWinThisRace;
+  });
+
+  return totalWaysToWin;
+}
+
+function waysToWin(time, distance) {
+  let waysToWin = 0;
+  for (let i = 1; i < time; i++) {
+    let remainingTime = time - i;
+    let speed = i;
+
+    if (remainingTime * speed > distance) {
+      ++waysToWin;
+    }
+  }
+
+  return waysToWin;
 }
 
 readInput(
