@@ -32,10 +32,7 @@ class HauntedWasteland {
     let networks = this.input.networkList;
     let instructions = Array.from(this.input.instructions);
 
-    console.log(current, networks, instructions);
-
     while (current !== "ZZZ") {
-      console.log(current);
       let direction = instructions.shift();
       let newCurrent;
       if (direction === "R") {
