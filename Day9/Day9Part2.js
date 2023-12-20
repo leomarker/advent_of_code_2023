@@ -31,21 +31,21 @@ class MirageMaintenance {
         nums = prediction;
       }
 
-      console.log(predictions);
-
       for (let i = predictions.length - 1; i > 0; i--) {
         let a = predictions[i];
         let b = predictions[i - 1];
 
-        console.log(a, b, "aaa");
+        if (a.every((element) => element === 0)) {
+          a.unshift(0);
+        }
 
-        calHist = a.slice(-1)[0] + b.slice(-1)[0];
-        b.unshift(calHist);
+        b.unshift(b[0] - a[0]);
+
+        // console.log(a, b, "aa");
+        calHist = calHist + a[0];
       }
 
-      console.log(calHist);
-
-      history.push(calHist);
+      history.push(predictions[0][0]);
     });
 
     return history;
@@ -68,15 +68,12 @@ function readInput(path, cb) {
   });
 }
 
-readInput(
-  "/home/nati/learn/AdventofCode/advent_of_code_2023/Day9/inputPart2.txt",
-  (err, data) => {
-    if (err) console.log(err);
+readInput("path", (err, data) => {
+  if (err) console.log(err);
 
-    const mirageMaintenance = new MirageMaintenance(data);
+  const mirageMaintenance = new MirageMaintenance(data);
 
-    const result = mirageMaintenance.partTwo();
+  const result = mirageMaintenance.partTwo();
 
-    console.log(result);
-  }
-);
+  console.log(result);
+});
